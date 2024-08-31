@@ -36,6 +36,10 @@ tasks {
 
 gradlePlugin {
   plugins {
+    register("tvApplication") {
+      id = "io.filmtime.gradle.application.tv"
+      implementationClass = "io.filmtime.gradle.plugins.TvApplicationPlugin"
+    }
     register("androidApplicationCompose") {
       id = "io.filmtime.gradle.android.application.compose"
       implementationClass = "io.filmtime.gradle.plugins.ApplicationComposePlugin"
