@@ -1,36 +1,28 @@
 package io.filmtime.tv.ui.home
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.filmtime.core.ui.navigation.DestinationRoute
-import io.filmtime.core.ui.navigation.composable
-import io.filmtime.tv.ui.navigation.TabDestination
+import io.filmtime.tv.ui.navigation.TabDestination.HomeScreen
+import kotlinx.serialization.Serializable
 
-val GRAPH_HOME_ROUTE = DestinationRoute("home_graph_route")
+@Serializable
+data object HomeGraph
 
 fun NavGraphBuilder.homeGraph(
-  onMovieClick: (rootRoute: DestinationRoute, tmdbId: Int) -> Unit,
-  onShowClick: (rootRoute: DestinationRoute, tmdbId: Int) -> Unit,
-  onTrendingMoviesClick: (rootRoute: DestinationRoute) -> Unit,
-  onTrendingShowsClick: (rootRoute: DestinationRoute) -> Unit,
-  nestedGraphs: NavGraphBuilder.(DestinationRoute) -> Unit,
+  onTopBarVisibleChange: (Boolean) -> Unit,
 ) {
-  navigation(
-    route = GRAPH_HOME_ROUTE.route,
-    startDestination = TabDestination.Home.name,
+  navigation<HomeGraph>(
+    startDestination = HomeScreen,
   ) {
-    composable(
-      route = TabDestination.Home.name,
-      screenName = "Home",
-    ) {
+    composable<HomeScreen> {
       HomeScreen(
-        onMovieClick = { onMovieClick(GRAPH_HOME_ROUTE, it) },
-        onShowClick = { onShowClick(GRAPH_HOME_ROUTE, it) },
-        onTrendingMoviesClick = { onTrendingMoviesClick(GRAPH_HOME_ROUTE) },
-        onTrendingShowsClick = { onTrendingShowsClick(GRAPH_HOME_ROUTE) },
+        onTopBarVisibleChange = onTopBarVisibleChange,
+        onMovieClick = { },
+        onShowClick = { },
+        onTrendingMoviesClick = { },
+        onTrendingShowsClick = {},
       )
     }
-
-    nestedGraphs(GRAPH_HOME_ROUTE)
   }
 }
