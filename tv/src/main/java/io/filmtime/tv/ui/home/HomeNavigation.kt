@@ -18,10 +18,6 @@ fun NavGraphBuilder.homeGraph(
     composable<HomeScreen> {
       HomeScreen(
         onTopBarVisibleChange = onTopBarVisibleChange,
-        onMovieClick = { },
-        onShowClick = { },
-        onTrendingMoviesClick = { },
-        onTrendingShowsClick = {},
       )
     }
   }
