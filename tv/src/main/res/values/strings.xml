@@ -6,7 +6,10 @@
     <string name="tab_search">Search</string>
     <string name="tab_settings">Settings</string>
     <string name="btn_retry">Retry</string>
+    <string name="mark_as_unwatched">Mark as unwatched</string>
+    <string name="mark_as_watched">Mark as watched</string>
     <string name="bookmarked">Bookmarked</string>
     <string name="bookmark">Bookmark</string>
     <string name="bullet_point">•</string>
+    <string name="loading">Loading...</string>
 </resources>
