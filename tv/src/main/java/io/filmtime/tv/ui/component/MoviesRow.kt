@@ -15,9 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import io.filmtime.data.model.VideoThumbnail
@@ -28,16 +26,14 @@ fun MoviesRow(
   modifier: Modifier = Modifier,
   thumbnails: List<VideoThumbnail>,
   title: String,
+  onClick: (tmdbId: Int) -> Unit = {},
 ) {
   val (lazyRow, firstItem) = remember { FocusRequester.createRefs() }
 
   Column(modifier.focusGroup()) {
     Text(
       text = title,
-      style = MaterialTheme.typography.headlineLarge.copy(
-        fontWeight = FontWeight.Medium,
-        fontSize = 30.sp,
-      ),
+      style = MaterialTheme.typography.titleLarge,
       modifier = Modifier.padding(horizontal = 60.dp, vertical = 20.dp),
     )
     LazyRow(
@@ -58,6 +54,7 @@ fun MoviesRow(
         VerticalMovieCard(
           videoThumbnail = item,
           modifier = itemModifier.width(150.dp),
+          onClick = { item.ids.tmdbId?.let { onClick(it) } },
         )
       }
     }
