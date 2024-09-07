@@ -26,17 +26,26 @@ fun TvBookmarkButton(
     shape = WideButtonDefaults.shape(),
     modifier = modifier,
     onClick = {
-      if (isBookmark) onRemove()
-      else onAdd()
+      if (isBookmark) {
+        onRemove()
+      } else {
+        onAdd()
+      }
     },
     content = {
       AnimatedContent(targetState = isBookmark, label = "") { isBookmarkState ->
-        if (isBookmarkState) Icon(imageVector = Rounded.Bookmark, contentDescription = "")
-        else Icon(imageVector = Rounded.BookmarkBorder, contentDescription = "")
+        if (isBookmarkState) {
+          Icon(imageVector = Rounded.Bookmark, contentDescription = "")
+        } else {
+          Icon(imageVector = Rounded.BookmarkBorder, contentDescription = "")
+        }
       }
       Text(
-        text = if (isBookmark) stringResource(R.string.bookmarked)
-        else stringResource(R.string.bookmark),
+        text = if (isBookmark) {
+          stringResource(R.string.bookmarked)
+        } else {
+          stringResource(R.string.bookmark)
+        },
         modifier = Modifier
           .wrapContentSize()
           .animateContentSize(),

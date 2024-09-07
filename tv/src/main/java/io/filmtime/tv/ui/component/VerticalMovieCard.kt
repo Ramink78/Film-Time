@@ -29,12 +29,20 @@ import androidx.tv.material3.StandardCardContainer
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
 import io.filmtime.data.model.VideoThumbnail
 
 @Composable
-fun VerticalMovieCard(modifier: Modifier = Modifier, videoThumbnail: VideoThumbnail) {
+fun VerticalMovieCard(
+  modifier: Modifier = Modifier,
+  videoThumbnail: VideoThumbnail,
+  onClick: () -> Unit = {},
+) {
   var isFocused by remember {
     mutableStateOf(false)
+  }
+  var imageState by remember {
+    mutableStateOf<AsyncImagePainter.State>(AsyncImagePainter.State.Empty)
   }
   StandardCardContainer(
     modifier = Modifier
@@ -44,7 +52,7 @@ fun VerticalMovieCard(modifier: Modifier = Modifier, videoThumbnail: VideoThumbn
       .then(modifier),
     imageCard = {
       Surface(
-        onClick = { },
+        onClick = onClick,
         shape = ClickableSurfaceDefaults.shape(MaterialTheme.shapes.medium),
         glow = ClickableSurfaceDefaults.glow(
           focusedGlow = Glow(
@@ -59,10 +67,14 @@ fun VerticalMovieCard(modifier: Modifier = Modifier, videoThumbnail: VideoThumbn
               .fillMaxWidth()
               .aspectRatio(CardDefaults.VerticalImageAspectRatio),
             contentScale = ContentScale.Crop,
+            onState = {
+              imageState = it
+            },
             contentDescription = videoThumbnail.title,
           )
           AnimatedVisibility(
-            visible = isFocused,
+            visible = isFocused || imageState is AsyncImagePainter.State.Loading ||
+              imageState is AsyncImagePainter.State.Error,
             enter = fadeIn(),
             exit = fadeOut(),
           ) {
@@ -73,8 +85,8 @@ fun VerticalMovieCard(modifier: Modifier = Modifier, videoThumbnail: VideoThumbn
                 .background(
                   Brush.verticalGradient(
                     colors = listOf(
-                      MaterialTheme.colorScheme.surface.copy(alpha = .3f),
-                      MaterialTheme.colorScheme.surface,
+                      MaterialTheme.colorScheme.surfaceVariant.copy(alpha = .3f),
+                      MaterialTheme.colorScheme.surfaceVariant,
                     ),
                   ),
                 ),
@@ -85,7 +97,7 @@ fun VerticalMovieCard(modifier: Modifier = Modifier, videoThumbnail: VideoThumbn
                   .align(Alignment.BottomCenter)
                   .padding(bottom = 16.dp, start = 12.dp, end = 12.dp),
                 text = videoThumbnail.title,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 maxLines = 3,

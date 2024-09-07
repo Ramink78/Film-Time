@@ -27,6 +27,8 @@ dependencies {
   implementation(project(":domain:tmdb-movies"))
   implementation(project(":domain:tmdb-shows"))
   implementation(project(":data:model"))
+  implementation(project(":domain:stream"))
+  implementation(project(":domain:bookmarks"))
   implementation(project(":domain:trakt:trakt"))
   implementation(project(":domain:trakt:history"))
   implementation(libs.androidx.hilt.navigation.compose)
