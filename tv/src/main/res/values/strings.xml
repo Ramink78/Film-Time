@@ -8,4 +8,5 @@
     <string name="btn_retry">Retry</string>
     <string name="bookmarked">Bookmarked</string>
     <string name="bookmark">Bookmark</string>
+    <string name="bullet_point">•</string>
 </resources>
