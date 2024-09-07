@@ -18,4 +18,14 @@
     <string name="loading">Loading…</string>
     <string name="cast_crew">Cast &amp; Crew</string>
     <string name="similar">Similar</string>
+    <string name="not_applicable">N/A</string>
+    <string name="imdb">IMDB</string>
+    <string name="genres">Genres</string>
+    <string name="release_date">Release Date</string>
+    <string name="rotten_tomatoes">Rotten Tomatoes</string>
+    <string name="spoken_languages">Spoken Languages</string>
+    <string name="trakt">Trakt</string>
+    <string name="status">Status</string>
+    <string name="tmdb">TMDB</string>
+    <string name="information">Information</string>
 </resources>
