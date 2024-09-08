@@ -26,10 +26,15 @@ fun TvNavHost(
   ) {
     homeGraph(
       onFirstItemVisibleChange = { isVisible ->
-        if (isVisible)
+        if (isVisible) {
           onShowTabBar()
-        else
+        } else {
           onHideTabBar()
+        }
+      },
+      onNavigateToMovieDetail = {
+        onHideTabBar()
+        navController.navigateToMovieDetail(it)
       },
     )
     moviesGraph()

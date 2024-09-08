@@ -23,6 +23,7 @@ import io.filmtime.tv.ui.component.MoviesRow
 @Composable
 fun HomeScreen(
   onFirstItemVisibleChange: (isVisible: Boolean) -> Unit,
+  onNavigateToMovieDetail: (tmdbId: Int) -> Unit,
 ) {
   val viewModel: HomeViewModel = hiltViewModel()
   val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -57,7 +58,7 @@ fun HomeScreen(
       contentPadding = PaddingValues(bottom = 150.dp),
     ) {
       items(uiState.videoSections) {
-        MoviesRow(thumbnails = it.items, title = it.title)
+        MoviesRow(thumbnails = it.items, title = it.title, onClick = onNavigateToMovieDetail)
       }
     }
   }
