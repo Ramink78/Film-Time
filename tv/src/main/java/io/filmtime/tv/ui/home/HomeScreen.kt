@@ -22,19 +22,18 @@ import io.filmtime.tv.ui.component.MoviesRow
 
 @Composable
 fun HomeScreen(
-  onTopBarVisibleChange: (Boolean) -> Unit,
+  onFirstItemVisibleChange: (isVisible: Boolean) -> Unit,
 ) {
   val viewModel: HomeViewModel = hiltViewModel()
   val uiState by viewModel.state.collectAsStateWithLifecycle()
   val lazyColumnState = rememberLazyListState()
-  val shouldShowTopBar by remember {
+  val isTopOfList by remember {
     derivedStateOf {
-      lazyColumnState.firstVisibleItemIndex == 0 &&
-        lazyColumnState.firstVisibleItemScrollOffset == 0
+      lazyColumnState.firstVisibleItemIndex == 0 && lazyColumnState.firstVisibleItemScrollOffset == 0
     }
   }
-  LaunchedEffect(shouldShowTopBar) {
-    onTopBarVisibleChange(shouldShowTopBar)
+  LaunchedEffect(isTopOfList) {
+    onFirstItemVisibleChange(isTopOfList)
   }
 
   when {

@@ -10,14 +10,15 @@ import kotlinx.serialization.Serializable
 data object HomeGraph
 
 fun NavGraphBuilder.homeGraph(
-  onTopBarVisibleChange: (Boolean) -> Unit,
+  onFirstItemVisibleChange: (isVisible: Boolean) -> Unit,
 ) {
   navigation<HomeGraph>(
     startDestination = HomeScreen,
   ) {
     composable<HomeScreen> {
       HomeScreen(
-        onTopBarVisibleChange = onTopBarVisibleChange,
+        onFirstItemVisibleChange = onFirstItemVisibleChange,
+        onNavigateToMovieDetail = onNavigateToMovieDetail,
       )
     }
   }

@@ -1,6 +1,11 @@
 package io.filmtime.tv
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -41,61 +46,49 @@ fun FilmTimeTvApp() {
   val currentBackStackEntry by navController.currentBackStackEntryAsState()
   val currentTab: TabItem = currentBackStackEntry.tabDestination().toTabItem()
   var topBarHeightPx: Int by rememberSaveable { mutableIntStateOf(0) }
-  var isTopBarVisible by remember {
-    mutableStateOf(true)
-  }
-  val topBarYOffset by animateIntAsState(
-    targetValue = if (isTopBarVisible) {
-      0
-    } else {
-      -topBarHeightPx
-    },
-    label = "TopBar Offset Animation",
-  )
+  var isTopBarVisible by remember { mutableStateOf(true) }
   val navHostYOffset by animateIntAsState(
-    targetValue = if (isTopBarVisible) {
-      topBarHeightPx
-    } else {
-      0
-    },
+    targetValue = if (isTopBarVisible) topBarHeightPx else 0,
     label = "NavHost Offset Animation",
   )
-  TabBar(
-    tabs = TabItem.entries,
-    selectedTabItem = currentTab,
-    onTabSelected = {
-      val navOption = navOptions {
-        popUpTo(navController.graph.findStartDestination().id) {
-          saveState = true
+  AnimatedVisibility(
+    visible = isTopBarVisible,
+    enter = slideInVertically() + fadeIn(),
+    exit = slideOutVertically() + fadeOut(),
+  ) {
+    TabBar(
+      tabs = TabItem.entries,
+      selectedTabItem = currentTab,
+      onTabSelected = {
+        val navOption = navOptions {
+          popUpTo(navController.graph.findStartDestination().id) {
+            saveState = true
+          }
+          launchSingleTop = true
+          restoreState = true
         }
-        launchSingleTop = true
-        restoreState = true
-      }
-      when (it) {
-        HomeScreen -> navController.navigate(HomeGraph, navOption)
-        MoviesScreen -> navController.navigate(MoviesGraph, navOption)
-        SearchScreen -> navController.navigate(SearchGraph, navOption)
-        SettingsScreen -> navController.navigate(SettingsGraph, navOption)
-        ShowsScreen -> navController.navigate(ShowsGraph, navOption)
-      }
-    },
-    modifier = Modifier
-      .offset {
-        IntOffset(0, topBarYOffset)
-      }
-      .fillMaxWidth()
-      .onSizeChanged {
-        topBarHeightPx = it.height
-      }
-      .padding(vertical = 16.dp),
-  )
+        when (it) {
+          HomeScreen -> navController.navigate(HomeGraph, navOption)
+          MoviesScreen -> navController.navigate(MoviesGraph, navOption)
+          SearchScreen -> navController.navigate(SearchGraph, navOption)
+          SettingsScreen -> navController.navigate(SettingsGraph, navOption)
+          ShowsScreen -> navController.navigate(ShowsGraph, navOption)
+        }
+      },
+      modifier = Modifier
+        .fillMaxWidth()
+        .onSizeChanged {
+          topBarHeightPx = it.height
+        }
+        .padding(vertical = 16.dp),
+    )
+  }
   TvNavHost(
     navController = navController,
     modifier = Modifier.offset {
       IntOffset(0, navHostYOffset)
     },
-    onTopBarVisibleChange = { isVisible ->
-      isTopBarVisible = isVisible
-    },
+    onHideTabBar = { isTopBarVisible = false },
+    onShowTabBar = { isTopBarVisible = true },
   )
 }
